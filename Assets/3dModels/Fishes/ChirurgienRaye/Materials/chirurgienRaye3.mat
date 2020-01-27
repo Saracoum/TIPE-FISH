@@ -65,12 +65,13 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _MaxBendAngle: 30
+    - _MaxTranslation: 0.01
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Period: 1
-    - _Phase: 0
+    - _Period: 100
+    - _Phase: 3.48
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 1

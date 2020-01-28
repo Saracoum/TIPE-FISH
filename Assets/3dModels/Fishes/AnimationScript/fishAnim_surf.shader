@@ -67,13 +67,13 @@
         float3 deformMesh( float3 v ) {
             
             //rotation
-            float bendAngle = degToRad * _MaxBendAngle * sin( (_Speed * _Phase - v.y/ _Period) * 2*PI );
-            bendAngle *= (v.x*v.x + v.y*v.y) / (_FishSize * _FishSize);
+            float bendAngle = degToRad * _MaxBendAngle * sin( (_Speed * _Phase - v.z/ _Period) * 2*PI );
+            bendAngle *= (v.x*v.x + v.z*v.z) / (_FishSize * _FishSize);
             
             float cosine = cos( bendAngle );
             float sinus = sin( bendAngle );
-            v.x = v.x * cosine - v.y * sinus;
-            v.y = v.x * sinus + v.y * cosine;
+            v.x = v.x * cosine - v.z * sinus;
+            v.z = v.x * sinus + v.z * cosine;
             
             //translation
             v.x += _MaxTranslation * -cos( _Speed * _Phase * 2*PI );

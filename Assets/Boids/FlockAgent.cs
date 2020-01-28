@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Collider))]
 public class FlockAgent : MonoBehaviour
 {
 
-    Collider2D agentcollider;
-    public Collider2D AgentCollider { 
+    Collider agentcollider;
+    public Collider AgentCollider { 
         get { 
             return agentcollider; 
         } 
@@ -17,13 +17,13 @@ public class FlockAgent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        agentcollider = GetComponent<Collider2D>();
+        agentcollider = GetComponent<Collider>();
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Move(Vector3 velocity)
     {
-        
+        transform.forward = velocity;
+        transform.position += velocity * Time.deltaTime;
     }
 }

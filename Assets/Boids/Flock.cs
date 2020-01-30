@@ -6,7 +6,7 @@ public class Flock : MonoBehaviour
 {
     public FlockAgent agentPrefab;
     List<FlockAgent> agents = new List<FlockAgent>();
-    public FlockBihaviour behavior;
+    public FlockBihavior behavior;
 
     [Range(10, 500)]
     public int startingCount = 250;
@@ -33,6 +33,7 @@ public class Flock : MonoBehaviour
         squareNeighborRadius = neighborRadius * neighborRadius;
         squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplayer * avoidanceRadiusMultiplayer;
 
+        //Crée tous les poissons et donne les noms
         for (int i = 0; i < startingCount; i++)
         {
             FlockAgent newAgent = Instantiate(
@@ -50,23 +51,22 @@ public class Flock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Fait bouger les poissons en fonctions des voisins
         foreach(FlockAgent agent in agents)
         {
             List<Transform> context = GetNearbyObjects(agent);
 
-            //FOR DEMO
-            agent.GetComponentInChildren<SpriteRenderer>().color = Color.Lerp(Color.white, Color.red, context.Count / 6f);
-
-            //Vector3 move = behavior.CalculateMove(agent, context, this);
-            //move *= driveFactor;
-            //if (move.sqrMagnitude > squareMaxSpeed)
-            //{
-            //    move = move.normalized * maxSpeed;
-            //}
-            //agent.Move(move);
+            Vector3 move = behavior.CalculateMove(agent, context, this);
+            move *= driveFactor;
+            if (move.sqrMagnitude > squareMaxSpeed)
+            {
+                move = move.normalized * maxSpeed;
+            }
+            agent.Move(move);
         }
     }
 
+    //Crée une liste de transformation en fct des voisins du poisson
     List<Transform> GetNearbyObjects(FlockAgent agent)
     {
         List<Transform> context = new List<Transform>();

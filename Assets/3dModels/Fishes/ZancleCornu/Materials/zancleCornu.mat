@@ -67,6 +67,7 @@ Material:
     - _HeightLimit: 0.07
     - _MaxBendAngle: 20
     - _MaxTranslation: 0.01
+    - _MaxUpperBendAngle: 3
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -77,9 +78,10 @@ Material:
     - _SpecularHighlights: 1
     - _Speed: 1
     - _SrcBlend: 1
-    - _TransitionHigh: 1
-    - _TransitionLow: 0.5
+    - _TransitionHigh: 0.06
+    - _TransitionLow: 0.05
     - _UVSec: 0
+    - _UpperAmplitude: 0.02
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

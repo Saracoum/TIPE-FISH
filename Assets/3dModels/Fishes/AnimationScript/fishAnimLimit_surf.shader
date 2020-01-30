@@ -12,9 +12,11 @@
         _Period("Period", Float) = 1
         _FishSize("Fish Size", Float) = 1
         _MaxBendAngle("Max bend angle", Float) = 30
+        _MaxUpperBendAngle("Max upper bend angle", Float) = 10
         _MaxTranslation("Max translation", Float) = 1
         _TransitionHigh("transition high", float) = 1
         _TransitionLow("transition low", float) = 0.5
+        _UpperAmplitude("upper amplitude", float) = 0
     }
     SubShader
     {
@@ -48,11 +50,15 @@
         float _Period;
         float _FishSize;
         float _MaxBendAngle;
+        float _MaxUpperBendAngle;
         
         float _MaxTranslation;
         
         float _TransitionHigh;
         float _TransitionLow;
+        
+        float _UpperAmplitude;
+        
         
         half _Glossiness;
         half _Metallic;
@@ -70,33 +76,21 @@
         
         float3 deformMesh( float3 v ) {
             
-            /*if ( v.y > _HeightLimit ) {
-                return v;
-            }*/
+            float angle = _MaxBendAngle;
+            if ( v.y >_TransitionHigh ) {
+                angle = _MaxUpperBendAngle;
+            } else if ( v.y >_TransitionLow ) {
+                angle = (v.y-_TransitionLow) / (_TransitionHigh-_TransitionLow) * (_MaxBendAngle-_MaxUpperBendAngle) + _MaxUpperBendAngle;
+            }
             
-            float localWeight = sin( (_Speed * _Phase - v.z/ _Period) * 2*PI );
-            float3 trRotation = v;
-            float3 trSin = v;
-            float trRotationWeight = lerp( _TransitionLow, _TransitionHigh, v.y );
-            float trSinWeight = 1-trRotationWeight;
+            float bendAngle = degToRad * angle * sin( (_Speed * _Phase - v.z/ _Period) * 2*PI );
             
-            //rotation - bottom
-            if ( v.y < _TransitionHigh ) {
-                float bendAngle = degToRad * _MaxBendAngle * localWeight;
-                bendAngle *= (v.x*v.x + v.z*v.z) / (_FishSize * _FishSize);
+            bendAngle *= (v.x*v.x + v.z*v.z) / (_FishSize * _FishSize);
                 
-                float cosine = cos( bendAngle );
-                float sinus = sin( bendAngle );
-                trRotation.x = v.x * cosine - v.z * sinus;
-                trRotation.z = v.x * sinus + v.z * cosine;   
-            }
-            
-            //sin - top
-            if ( v.y > _TransitionLow ) {
-                trSin.x = v.x + 0.1 * localWeight;
-            }
-            
-            v = trRotation * trRotationWeight + trSin * trSinWeight;
+            float cosine = cos( bendAngle );
+            float sinus = sin( bendAngle );
+            v.x = v.x * cosine - v.z * sinus;
+            v.z = v.x * sinus + v.z * cosine;   
             
             
             //translation

@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83349ef2ff93e134eb82876e07e1f2d8, type: 3}
-  m_Name: StayinRadius
+  m_Script: {fileID: 11500000, guid: b2effc5bc38f1f54b96d4bb98f90107d, type: 3}
+  m_Name: EvitementMieux
   m_EditorClassIdentifier: 
-  center: {x: 0, y: 0, z: 0}
-  radius: 3.5
+  distance: 3
+  masque:
+    serializedVersion: 2
+    m_Bits: 256

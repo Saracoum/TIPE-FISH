@@ -8,15 +8,15 @@ public class Flock : MonoBehaviour
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBihavior behavior;
 
-    [Range(10, 500)]
+    [Range(2, 500)]
     public int startingCount = 250;
     const float AgentDensity = 0.025f;
 
-    [Range(1f, 100f)]
+    [Range(0f, 100f)]
     public float driveFactor = 10f;
-    [Range(1f, 100f)]
+    [Range(0f, 10f)]
     public float maxSpeed = 5f;
-    [Range(1f, 10f)]
+    [Range(0f, 10f)]
     public float neighborRadius = 1.5f;
     [Range(0f, 1f)]
     public float avoidanceRadiusMultiplayer = 0.5f;

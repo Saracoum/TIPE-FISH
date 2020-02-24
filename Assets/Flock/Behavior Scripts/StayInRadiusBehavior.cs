@@ -6,6 +6,7 @@ using UnityEngine;
 public class StayInRadiusBehavior : FlockBihavior
 {
     public Vector3 center;
+    //public Transform center;
     public float radius = 15f;
 
     public override Vector3 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)

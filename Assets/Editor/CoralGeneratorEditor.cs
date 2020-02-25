@@ -8,6 +8,15 @@ using UnityEngine;
 public class CoralGeneratorEditor : Editor
 {
     public override void OnInspectorGUI() {
+        DrawDefaultInspector();
         
+        
+        CoralGenerator gen = (CoralGenerator)target;
+        if (GUILayout.Button("Build coral")) {
+            gen.GenerateCoral();
+        }
+        if (GUILayout.Button("Remove coral")) {
+            gen.RemoveChildren();
+        }
     }
 }

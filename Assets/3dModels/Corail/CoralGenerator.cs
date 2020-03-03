@@ -6,10 +6,13 @@ using UnityEngine;
 /*
 Petit script qui ajoute des coraux aleatoirement autour d'un objet.
 */
-public class CoralGenerator : MonoBehaviour
+public class CoralGenerator : LifeManager
 {
 
     public GameObject coralPrefab;
+    public Material aliveMat;
+    public Material deadMat;
+    
     public int count = 10;
     [Range(0, 5)]
     public float radius = 1;
@@ -22,16 +25,18 @@ public class CoralGenerator : MonoBehaviour
     public float sizeSpan = 0.5f;
 
 
-    public void GenerateCoral()
+    public void GenerateCoral( float health )
     {
         RemoveChildren();
+        
+        //int realCount = (int)(count * health);
         for (int i = 0; i < count; i++)
         {
-            InstantiateCoral();
+            InstantiateCoral( Random.value < health );
         }
     }
 
-    private void InstantiateCoral()
+    private void InstantiateCoral( bool alive )
     {
         GameObject coral = Instantiate(coralPrefab, transform.position, transform.rotation);
         coral.transform.SetParent(transform);
@@ -69,6 +74,12 @@ public class CoralGenerator : MonoBehaviour
         // TAILLE
         ///////////////////
         coral.transform.localScale = Vector3.one * Random.Range(1 - sizeSpan, 1 + sizeSpan);
+        
+        //Material
+        Material nextMat = (alive ? aliveMat : deadMat);
+        if ( nextMat != null ) {
+            coral.GetComponent<Renderer>().material = nextMat;
+        }
     }
 
     public void RemoveChildren()
@@ -77,5 +88,12 @@ public class CoralGenerator : MonoBehaviour
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
+    }
+    
+    
+    
+    override public void CreateLife(float health)
+    {
+        GenerateCoral(health);
     }
 }

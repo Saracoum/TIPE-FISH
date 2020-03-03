@@ -13,7 +13,7 @@ public class CoralGeneratorEditor : Editor
         
         CoralGenerator gen = (CoralGenerator)target;
         if (GUILayout.Button("Build coral")) {
-            gen.GenerateCoral();
+            gen.GenerateCoral(1.0f);
         }
         if (GUILayout.Button("Remove coral")) {
             gen.RemoveChildren();

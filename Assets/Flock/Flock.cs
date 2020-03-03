@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flock : MonoBehaviour
+public class Flock : LifeManager
 {
     public FlockAgent agentPrefab;
     List<FlockAgent> agents = new List<FlockAgent>();
@@ -26,34 +26,66 @@ public class Flock : MonoBehaviour
     float squareAvoidanceRadius;
     public float SquareAvoidanceRadius { get { return squareAvoidanceRadius; } }
 
-    // Start is called before the first frame update
+
     void Start()
     {
         squareMaxSpeed = maxSpeed * maxSpeed;
         squareNeighborRadius = neighborRadius * neighborRadius;
         squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplayer * avoidanceRadiusMultiplayer;
 
+        //CreateLife(1); //Méthode appelée depuis le GlobalLifeManager
+    }
+
+    public override void CreateLife(float health)
+    {
+        int realCount = (int)(health * startingCount);
+        int delta = realCount - agents.Count;
+
+        if (delta > 0)
+        {
+            GenerateAgents(delta);
+        }
+        else
+        {
+            RemoveAgents(-delta);
+        }
+    }
+
+    public void GenerateAgents(int count)
+    {
+        int originalCount = agents.Count;
+
         //Crée tous les poissons et donne les noms
-        for (int i = 0; i < startingCount; i++)
+        for (int i = 0; i < count; i++)
         {
             FlockAgent newAgent = Instantiate(
                 agentPrefab,
                 Random.insideUnitSphere * startingCount * AgentDensity + transform.position,
-                Quaternion.Euler(Vector3.forward * Random.Range(0f,360f)),
+                Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
                 transform
                 );
-            newAgent.name = "Agent" + i;
+            newAgent.name = "Agent" + (i + originalCount);
             newAgent.Initialize(this);
             agents.Add(newAgent);
         }
-
     }
 
-    // Update is called once per frame
+    public void RemoveAgents(int count)
+    {
+        while (count > 0 && agents.Count != 0)
+        {
+            FlockAgent agent = agents[agents.Count - 1];
+            Destroy(agent.gameObject);
+            agents.Remove(agent);
+            count--;
+        }
+    }
+
+
     void Update() // changé depuis FixedUpdate
     {
         //Fait bouger les poissons en fonctions des voisins
-        foreach(FlockAgent agent in agents)
+        foreach (FlockAgent agent in agents)
         {
             List<Transform> context = GetNearbyObjects(agent);
 
@@ -72,9 +104,9 @@ public class Flock : MonoBehaviour
     {
         List<Transform> context = new List<Transform>();
         Collider[] contextColliders = Physics.OverlapSphere(agent.transform.position, neighborRadius);
-        foreach(Collider c in contextColliders)
+        foreach (Collider c in contextColliders)
         {
-            if ( c != agent.AgentCollider)
+            if (c != agent.AgentCollider)
             {
                 context.Add(c.transform);
             }

@@ -678,7 +678,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149848787}
   m_LocalRotation: {x: -0, y: -0.676287, z: -0, w: 0.7366383}
-  m_LocalPosition: {x: -3.62, y: -5.96, z: 0.31}
+  m_LocalPosition: {x: 0.49, y: -5.96, z: -0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1746,7 +1746,7 @@ MonoBehaviour:
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
   startingCount: 250
   driveFactor: 10
-  maxSpeed: 5
+  maxSpeed: 1.5
   neighborRadius: 1.5
   avoidanceRadiusMultiplayer: 0.5
 --- !u!1 &401314256
@@ -4311,7 +4311,7 @@ MonoBehaviour:
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
   startingCount: 250
   driveFactor: 10
-  maxSpeed: 5
+  maxSpeed: 1.5
   neighborRadius: 1.5
   avoidanceRadiusMultiplayer: 0.5
 --- !u!1 &1127852560
@@ -6440,10 +6440,10 @@ MonoBehaviour:
   deadMat: {fileID: 0}
   count: 40
   radius: 2
-  maxAngle: 50
+  maxAngle: 2
   maxRandomAngle: 0
   offset: 0
-  sizeSpan: 0.5
+  sizeSpan: 0.176
 --- !u!4 &1779873345
 Transform:
   m_ObjectHideFlags: 0

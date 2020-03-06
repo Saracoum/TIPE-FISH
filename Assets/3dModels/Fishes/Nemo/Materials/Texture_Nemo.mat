@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MatVulpi
+  m_Name: Texture_Nemo
   m_Shader: {fileID: 4800000, guid: 31bd5a4dc4ea4de4a894093e35e02515, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -40,9 +40,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 5d44cd2ccfa26674dbba5aa0ffac71b2, type: 3}
+        m_Texture: {fileID: 2800000, guid: eb8daf02eeb57944683794dcad22340c, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -60,18 +60,18 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FishSize: 0.2
+    - _FishSize: 0.1
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _MaxBendAngle: 6
-    - _MaxTranslation: 0.01
+    - _MaxBendAngle: 10
+    - _MaxTranslation: 0.003
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Period: 0.3
-    - _Phase: 0
+    - _Period: 0.6
+    - _Phase: 7
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 1

@@ -6058,8 +6058,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coralPrefab: {fileID: 7824640624904176262, guid: 7d898470f85278a41a761515789abaec,
     type: 3}
-  aliveMat: {fileID: 0}
-  deadMat: {fileID: 0}
+  aliveMat: {fileID: 2100000, guid: 130b7608ea5be7c40a3d65eb15faf103, type: 2}
+  deadMat: {fileID: 2100000, guid: fe9584532c83afd45b30215b09d8f94d, type: 2}
   count: 40
   radius: 1
   maxAngle: 30
@@ -6479,7 +6479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db293e3b86bfe0d4c9538c4d021ad15b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coralPrefab: {fileID: 7322101974343777862, guid: e595304f87a43d84b9aead1b45289661,
+  coralPrefab: {fileID: 4905630374226800662, guid: 9f3511bcfd294cc4690b29195c79808b,
     type: 3}
   aliveMat: {fileID: 0}
   deadMat: {fileID: 0}

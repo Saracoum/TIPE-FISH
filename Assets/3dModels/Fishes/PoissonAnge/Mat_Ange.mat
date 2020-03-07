@@ -60,17 +60,17 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FishSize: 1
+    - _FishSize: 0.4
     - _GlossMapScale: 1
     - _Glossiness: 0.277
     - _GlossyReflections: 1
-    - _MaxBendAngle: 24.66
-    - _MaxTranslation: 0.02
+    - _MaxBendAngle: 25
+    - _MaxTranslation: 0.01
     - _Metallic: 0.159
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Period: 0.07
+    - _Period: 0.5
     - _Phase: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

@@ -47,7 +47,30 @@ public abstract class Curve
             polyLst.Insert(insertId, CreatePoly(insertId));
         }
     }
-
+    
+    //récupère les clé.
+    public List<Vector2> GetKeys() {
+        return keys;
+    }
+    
+    
+    public void ChangeKeyById( int id, float x, float y ) {
+        ChangeKeyById( id, new Vector2(x, y) );
+    }
+    
+    public void ChangeKeyById( int id, Vector2 key ) {
+        if ( id >= 0 && id < keys.Count ) {
+            keys[id] = key;
+            if ( id+1 < keys.Count ) {
+                polyLst[id] = CreatePoly(id);
+            }
+            if ( id > 0 ) {
+                polyLst[id-1] = CreatePoly(id-1);
+            }
+            
+        }
+    }
+    
 
     public abstract Polynomial CreatePoly(int id);
 

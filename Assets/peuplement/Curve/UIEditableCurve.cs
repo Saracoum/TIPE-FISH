@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI.Extensions;
 
 /**
@@ -14,6 +15,8 @@ public class UIEditableCurve : MonoBehaviour
 
     //le renderer de la courbe
     private UILineRenderer rend;
+    //le rectTransform pour chopper la position de la souris
+    private RectTransform rect;
 
     //la courbe a afficher
     private Curve _currentCurve;
@@ -29,9 +32,17 @@ public class UIEditableCurve : MonoBehaviour
     }
 
     [SerializeField]
-    private GameObject sliderPref = null;
-    private List<GameObject> sliders;
+    private GameObject AddKeyMarker = null;
 
+    [SerializeField]
+    private GameObject sliderPref = null;
+    private List<BoxSlider> sliders = new List<BoxSlider>();
+
+
+    //la distance a la courbe de la souris pour placer un point
+    [Range(0.0f, 0.5f)]
+    [SerializeField]
+    private float distToAddKey = 0.1f;
 
     // le nombre de subdivision pour afficher la courbe
     [SerializeField]
@@ -56,15 +67,52 @@ public class UIEditableCurve : MonoBehaviour
         }
     }
 
+
+
+
+    private void Update()
+    {
+
+        Vector2 mouseScreenPos = Input.mousePosition;
+        Vector2 mouseLocalPos;
+        mouseLocalPos = Rect.PointToNormalized(rect.rect, rect.InverseTransformPoint(mouseScreenPos));
+        Vector2 keyMarkerPos = new Vector2( mouseLocalPos.x, CurrentCurve.Get(mouseLocalPos.x) );
+        
+        bool canAddKey = Mathf.Abs(mouseLocalPos.y - keyMarkerPos.y) < distToAddKey;
+        foreach (Vector2 key in CurrentCurve.GetKeys())
+        {
+            canAddKey = canAddKey && (mouseLocalPos - key).sqrMagnitude > distToAddKey * distToAddKey;
+        }
+        AddKeyMarker.SetActive(canAddKey);
+        if (canAddKey)
+        {
+            AddKeyMarker.transform.localPosition = Rect.NormalizedToPoint(rect.rect, keyMarkerPos);
+            if ( Input.GetMouseButtonDown(0) ) {
+                AddKey( keyMarkerPos );
+            }
+            
+
+        }
+
+    }
+
+    public void AddKey(Vector2 key)
+    {
+        CurrentCurve.AddKey(key);
+        UpdateSliders();
+        UpdateLineRender();
+    }
+
+
     //met à jour les positions des sliders sur l'interface
     private void UpdateSliders()
     {
         //Nettoyage des sliders
-        while (transform.childCount > 0)
+        foreach (BoxSlider slider in sliders)
         {
-            Destroy(transform.GetChild(0).gameObject);
+            Destroy(slider.gameObject);
         }
-        sliders = new List<GameObject>();
+        sliders = new List<BoxSlider>();
 
         List<Vector2> keys = CurrentCurve.GetKeys();
         foreach (Vector2 key in keys)
@@ -76,20 +124,51 @@ public class UIEditableCurve : MonoBehaviour
             boxSlider.ValueY = key.y;
             boxSlider.editableCurve = this;
 
-            sliders.Add(sliderObj);
+            sliders.Add(boxSlider);
         }
     }
 
     //applique les modifs depuis le slider vers la courbe, et met a jour l'affichage
     public void UpdateCurveKey(BoxSlider changedSlider)
     {
-        //TODO sort sliders
+        //tri de la liste des sliders, et conservation des indice avant et après le tri
+        int oldId = sliders.IndexOf(changedSlider);
+        sliders.Sort( CompSliders );
+        int newId = sliders.IndexOf(changedSlider);
         
-        int sliderId = sliders.IndexOf( changedSlider.gameObject );
-        CurrentCurve.ChangeKeyById(sliderId, changedSlider.ValueX, changedSlider.ValueY);
-        
+        if ( oldId > newId ) {
+            int tmp = oldId;
+            oldId = newId;
+            newId = tmp;
+        }
+        for( int id=oldId; id<=newId; id++ ) {
+            BoxSliderKey currentSlider = sliders[id].GetComponent<BoxSliderKey>();
+            CurrentCurve.ChangeKeyById(id, currentSlider.ValueX, currentSlider.ValueY);
+        }
         UpdateLineRender();
     }
+    
+    
+    //supprime un slider
+    public void RemoveSlider( BoxSlider slider ) {
+        int id = sliders.IndexOf(slider);
+        sliders.Remove(slider);
+        Destroy( slider.gameObject );
+        
+        CurrentCurve.RemoveKeyAt(id);
+        UpdateLineRender();
+    }
+    
+    
+    //tri la liste des sliders
+    private int CompSliders( BoxSlider slider1, BoxSlider slider2 ) {
+        float delta = slider1.ValueX - slider2.ValueX;
+        if ( delta == 0 ) {
+            return 0;
+        }
+        return delta>0 ? 1 : -1;
+    }
+    
 
     //met à jour l'affichage de la courbe
     private void UpdateLineRender()
@@ -112,14 +191,18 @@ public class UIEditableCurve : MonoBehaviour
 
     private void Start()
     {
-        //récupération du UILineRenderer
+        
+        
+        //récupération des composants
         rend = GetComponent<UILineRenderer>();
+        rect = GetComponent<RectTransform>();
 
         //création de la courbe
         //List<Vector2> keyLst = new List<Vector2> { new Vector2(0, 0), new Vector2(1, 1) };
         List<Vector2> keyLst = new List<Vector2> { new Vector2(0, 0), new Vector2(0.5f, 1), new Vector2(1, 0.75f) };
         CurrentCurve = new LinearCurve(keyLst);
-
+        
+        OnValidate();
 
     }
 

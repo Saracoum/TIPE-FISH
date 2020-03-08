@@ -228,7 +228,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1012312083}
   m_Father: {fileID: 1555496909}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -261,21 +262,21 @@ MonoBehaviour:
   m_useNativeSize: 0
   m_points:
   - {x: 0, y: 0}
-  - {x: 0.11111111, y: 0}
-  - {x: 0.22222222, y: 0}
-  - {x: 0.33333334, y: 0}
-  - {x: 0.44444445, y: 0}
-  - {x: 0.5555556, y: 0}
-  - {x: 0.6666667, y: 0}
-  - {x: 0.7777778, y: 0}
-  - {x: 0.8888889, y: 0}
+  - {x: 0.06810257, y: 0.12577704}
+  - {x: 0.24177153, y: 0.21212727}
+  - {x: 0.3391981, y: 0.10523934}
+  - {x: 0.44444445, y: 0.2919136}
+  - {x: 0.5555556, y: 0.37315813}
+  - {x: 0.66010934, y: 0.31444836}
+  - {x: 0.7269586, y: 0.40007302}
+  - {x: 0.88888896, y: 0.09621355}
   - {x: 1, y: 0}
   lineThickness: 5
   relativeSize: 1
   lineList: 0
   lineCaps: 0
   bezierSegmentsPerCurve: 10
-  LineJoins: 0
+  LineJoins: 1
   BezierMode: 0
   drivenExternally: 0
 --- !u!222 &53405786
@@ -298,9 +299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f76ca5c4d92ed4bb01bbf4f7dae9e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddKeyMarker: {fileID: 1012312082}
   sliderPref: {fileID: 3621331835474878898, guid: ae9d8f5af4c71b84e9bf92afb7bf35fc,
     type: 3}
-  _subdivision: 15
+  distToAddKey: 0.1
+  _subdivision: 100
 --- !u!1 &97390994
 GameObject:
   m_ObjectHideFlags: 0
@@ -3594,6 +3597,79 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1004941271}
   m_Mesh: {fileID: -4248826192882620471, guid: a287ec0bd09f7b846822be557af25aa6, type: 3}
+--- !u!1 &1012312082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1012312083}
+  - component: {fileID: 1012312085}
+  - component: {fileID: 1012312084}
+  m_Layer: 5
+  m_Name: AddKeyMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1012312083
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012312082}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 53405784}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 32, y: 32}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1012312084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012312082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9866a92691696b346901281f2b329034, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1012312085
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012312082}
+  m_CullTransparentMesh: 0
 --- !u!1 &1031911304
 GameObject:
   m_ObjectHideFlags: 0
@@ -6053,7 +6129,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 149848789}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1

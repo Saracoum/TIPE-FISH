@@ -15,4 +15,12 @@ public class BoxSliderKey : BoxSlider
         }
     }
     
+    
+    public void Remove() {
+        if ( editableCurve != null ) {
+            editableCurve.RemoveSlider(this);
+        }
+    }
+    
+    
 }

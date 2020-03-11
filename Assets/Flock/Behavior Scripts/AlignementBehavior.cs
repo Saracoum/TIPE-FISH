@@ -19,7 +19,6 @@ public class AlignementBehavior : FilteredFlockBehavior
             alignementMove += item.transform.forward;
         }
         alignementMove /= context.Count;
-
         return alignementMove;
 
     }

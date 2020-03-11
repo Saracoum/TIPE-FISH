@@ -17,6 +17,9 @@ public class FlockAgent : MonoBehaviour
         } 
     }
     
+    private float speed = 1.0f;
+    private Vector3 currentVelocity = Vector3.zero;
+    
     public void Initialize(Flock flock)
     {
         agentFlock = flock;
@@ -32,8 +35,10 @@ public class FlockAgent : MonoBehaviour
 
     public void Move(Vector3 velocity)
     {
-        transform.forward = velocity;
-        transform.position += (Vector3) velocity * Time.deltaTime;
+        currentVelocity = Vector3.Lerp( currentVelocity, velocity, speed * Time.deltaTime );
+        
+        transform.forward = currentVelocity;
+        transform.position += (Vector3) currentVelocity * Time.deltaTime;
         //rb.AddForce(velocity, ForceMode.VelocityChange);
     }
 

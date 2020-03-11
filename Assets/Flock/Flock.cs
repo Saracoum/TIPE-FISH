@@ -25,7 +25,7 @@ public class Flock : LifeManager
     float squareNeighborRadius;
     float squareAvoidanceRadius;
     public float SquareAvoidanceRadius { get { return squareAvoidanceRadius; } }
-
+    public float SquareNeighborRadius { get { return squareNeighborRadius; } }
 
     void Start()
     {

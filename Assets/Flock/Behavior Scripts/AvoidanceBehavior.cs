@@ -13,11 +13,13 @@ public class AvoidanceBehavior : FilteredFlockBehavior
 
         //on fait la moyenne des ptits potes
         Vector3 avoidanceMove = Vector3.zero;
-        int nAvoid = 0;
+        // int nAvoid = 0;
+        float nAvoid = 0;
         List<Transform> filteredContext = (filter == null) ? context : filter.Filter(agent, context);
         foreach (Transform item in filteredContext)
         {
-            if (Vector3.SqrMagnitude(item.position - agent.transform.position) < flock.SquareAvoidanceRadius)
+            float distRatio = Vector3.SqrMagnitude(item.position - agent.transform.position) / flock.SquareAvoidanceRadius; 
+            if (distRatio < 1)
             {
                 nAvoid++;
                 avoidanceMove += agent.transform.position - item.position;

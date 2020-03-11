@@ -18,12 +18,18 @@ public class SteeredCohesionBehavior : FilteredFlockBehavior
 
         //on fait la moyenne des ptits potes
         Vector3 cohesionMove = Vector3.zero;
+        float weightSum = 0;
         List<Transform> filteredContext = (filter == null) ? context : filter.Filter(agent, context);
         foreach (Transform item in filteredContext)
         {
-            cohesionMove += (Vector3)item.position;
+            float weight = 1 - ((item.position - agent.transform.position).sqrMagnitude / flock.SquareNeighborRadius);
+            cohesionMove += (item.position - agent.transform.position).normalized * weight;
+            weightSum += weight;
         }
-        cohesionMove /= context.Count;
+        // cohesionMove /= context.Count;
+        if ( weightSum != 0 ) {
+            cohesionMove /= weightSum;
+        }
 
         //on decale par rapport a la position de l'agent
         cohesionMove -= (Vector3)agent.transform.position;

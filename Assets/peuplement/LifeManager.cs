@@ -7,6 +7,6 @@ using UnityEngine;
 public abstract class LifeManager : MonoBehaviour
 {
 
-    public abstract void CreateLife( float health );
+    public abstract void CreateLife( State currentState );
 
 }

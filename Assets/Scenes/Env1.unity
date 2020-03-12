@@ -6278,7 +6278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cadf1c8ef856d564691935cf52da7657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalHealth: 0.434
+  uiTempCurve: {fileID: 53405787}
 --- !u!1 &1599845687
 GameObject:
   m_ObjectHideFlags: 0

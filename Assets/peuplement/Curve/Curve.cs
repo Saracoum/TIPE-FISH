@@ -7,7 +7,8 @@ public abstract class Curve
 
     protected List<Polynomial> polyLst = new List<Polynomial>();
     protected List<Vector2> keys = new List<Vector2>();
-
+    
+    //évaluter la courbe en x
     public float Get(float x)
     {
         if ( keys.Count == 0 ) {
@@ -23,7 +24,7 @@ public abstract class Curve
         return (id < 0) ? 0 : polyLst[id].Get(x);
     }
 
-
+    //ajouter une clé
     public void AddKey(float x, float y)
     {
         AddKey(new Vector2(x, y));
@@ -70,7 +71,8 @@ public abstract class Curve
         return keys;
     }
 
-
+    
+    //modifier la clé a l'id spécifié
     public void ChangeKeyById(int id, float x, float y)
     {
         ChangeKeyById(id, new Vector2(x, y));
@@ -93,6 +95,7 @@ public abstract class Curve
         }
     }
     
+    //supprimer une clé
     public bool RemoveKeyAt( int id ) {
         if ( id < 0 || id >= keys.Count  ) {
             return false;
@@ -114,10 +117,50 @@ public abstract class Curve
         return true;
     }
     
+    
+    
+    //opération de base
+    
+    //addition
+    public static Curve operator +( Curve curve, float f ) {
+        Curve clone = curve.Clone();
+        clone.Add(f);
+        return clone;
+    }
+    
+    public void Add(float f) {
+        for( int i=0; i+1<keys.Count; i++ ) {
+            keys[i] = new Vector2( keys[i].x, keys[i].y + f );
+            polyLst[i].Add(f);
+        }
+        if ( polyLst.Count != 0 ) {
+            polyLst[polyLst.Count-1].Add(f);
+        }
+    }
+    
+    //multiplication
+    public static Curve operator *( Curve curve, float f ) {
+        Curve clone = curve.Clone();
+        clone.Mul(f);
+        return clone;
+    }
+    
+    public void Mul(float f) {
+        for( int i=0; i+1<keys.Count; i++ ) {
+            keys[i] = new Vector2( keys[i].x, keys[i].y * f );
+            polyLst[i].Mul(f);
+        }
+        if ( polyLst.Count != 0 ) {
+            polyLst[polyLst.Count-1].Mul(f);
+        }
+    }
+    
 
     public abstract Polynomial CreatePoly(int id);
 
-
+    //retourne l'id du polynome qui doit être évalué en x
+    //-1 si x est suppérieur a la dernière clé
+    //-2 si x est inférieur a la première clé, ou qu'il n'y a aucun polynome
     private int GetRangeId(float x)
     {
         if (keys.Count == 0 || x > keys[keys.Count - 1].x)
@@ -136,9 +179,14 @@ public abstract class Curve
         }
         return i;
     }
-
-
-
+    
+    
+    //Clone
+    public abstract Curve Clone();
+    
+    
+    
+    //constructeurs
     public Curve() : this(null) { }
 
 
@@ -152,6 +200,12 @@ public abstract class Curve
                 AddKey(key);
             }
         }
+    }
+    
+    //un constructeur privé qui ne fait pas de vérif sur les données d'entrée
+    protected Curve( List<Vector2> keys, List<Polynomial> polyLst ) {
+        this.keys = keys;
+        this.polyLst = polyLst;
     }
 
 }

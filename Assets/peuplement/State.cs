@@ -5,6 +5,17 @@ using UnityEngine;
 public class State
 {
     
-    private Curve tempCurve = new LinearCurve();
+    private Curve _tempCurve = new LinearCurve();
+    public Curve TempCurve {
+        get{ return _tempCurve; }
+    }
+    public float time;
+    
+    public State( Curve tempCurve) : this(tempCurve, 0) {}
+    
+    public State( Curve tempCurve, float time ) {
+        _tempCurve = tempCurve;
+        this.time = time;
+    }
     
 }

@@ -36,8 +36,9 @@ public class Flock : LifeManager
         //CreateLife(1); //Méthode appelée depuis le GlobalLifeManager
     }
 
-    public override void CreateLife(float health)
+    public override void CreateLife(State currentState)
     {
+        float health = 1; //TODO implémenter un truc qui fait du sens
         int realCount = (int)(health * startingCount);
         int delta = realCount - agents.Count;
 

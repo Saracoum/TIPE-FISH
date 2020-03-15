@@ -91,12 +91,21 @@ public class CoralGenerator : LifeManager
     }
     
     
+    //DEBUG
+    public UIEditableCurve displayCurve = null;
     
     override public void CreateLife( State currentState )
     {
-        Curve growth = (currentState.TempCurve + -25) * (1/5);
+        Curve growth = (currentState.TempCurve - 25) * 10;
+        Curve population = growth.GetPrimitive() + count;
+        float health = population.Get(currentState.time) / count;
+        GenerateCoral(health);
         
         
-        // GenerateCoral(health);
+        if (displayCurve != null) {
+            Curve disp = population / 60;
+            displayCurve.CurrentCurve = disp;
+        }
     }
+    
 }

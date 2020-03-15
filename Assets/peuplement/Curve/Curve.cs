@@ -1,12 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Curve
+
+public class Curve
 {
 
     protected List<Polynomial> polyLst = new List<Polynomial>();
     protected List<Vector2> keys = new List<Vector2>();
+    
+    public PolynomialGenerator polyGen = new LinearPolyGenerator();
     
     //évaluter la courbe en x
     public float Get(float x)
@@ -23,7 +27,11 @@ public abstract class Curve
         }
         return (id < 0) ? 0 : polyLst[id].Get(x);
     }
-
+    
+    ////////////////////////////////////////////
+    //opérations sur les clés
+    ////////////////////////////////////////////
+    
     //ajouter une clé
     public void AddKey(float x, float y)
     {
@@ -53,14 +61,14 @@ public abstract class Curve
 
         if (insertId > 0)
         {
-            polyLst.Insert(insertId - 1, CreatePoly(insertId-1));
+            polyLst.Insert(insertId - 1, polyGen.CreatePoly(keys, insertId-1));
         }
         if (insertId + 1 < keys.Count)
         {
             if ( insertId == 0 ) {
-                polyLst.Insert( 0, CreatePoly(insertId));
+                polyLst.Insert( 0, polyGen.CreatePoly(keys, insertId));
             } else {
-                polyLst[insertId] = CreatePoly(insertId);
+                polyLst[insertId] = polyGen.CreatePoly(keys, insertId);
             }
         }
     }
@@ -85,11 +93,11 @@ public abstract class Curve
             keys[id] = key;
             if (id + 1 < keys.Count)
             {
-                polyLst[id] = CreatePoly(id);
+                polyLst[id] = polyGen.CreatePoly(keys, id);
             }
             if (id > 0)
             {
-                polyLst[id - 1] = CreatePoly(id - 1);
+                polyLst[id - 1] = polyGen.CreatePoly(keys, id - 1);
             }
 
         }
@@ -109,61 +117,20 @@ public abstract class Curve
             polyLst.RemoveAt( (id != polyLst.Count) ? id : id-1 );
         }
         if ( id != 0 && id != keys.Count ) {
-            polyLst[id-1] = CreatePoly(id-1);
+            polyLst[id-1] = polyGen.CreatePoly(keys, id-1);
         }
         
         
         
         return true;
     }
-    
-    
-    
-    //opération de base
-    
-    //addition
-    public static Curve operator +( Curve curve, float f ) {
-        Curve clone = curve.Clone();
-        clone.Add(f);
-        return clone;
-    }
-    
-    public void Add(float f) {
-        for( int i=0; i+1<keys.Count; i++ ) {
-            keys[i] = new Vector2( keys[i].x, keys[i].y + f );
-            polyLst[i].Add(f);
-        }
-        if ( polyLst.Count != 0 ) {
-            polyLst[polyLst.Count-1].Add(f);
-        }
-    }
-    
-    //multiplication
-    public static Curve operator *( Curve curve, float f ) {
-        Curve clone = curve.Clone();
-        clone.Mul(f);
-        return clone;
-    }
-    
-    public void Mul(float f) {
-        for( int i=0; i+1<keys.Count; i++ ) {
-            keys[i] = new Vector2( keys[i].x, keys[i].y * f );
-            polyLst[i].Mul(f);
-        }
-        if ( polyLst.Count != 0 ) {
-            polyLst[polyLst.Count-1].Mul(f);
-        }
-    }
-    
-
-    public abstract Polynomial CreatePoly(int id);
 
     //retourne l'id du polynome qui doit être évalué en x
     //-1 si x est suppérieur a la dernière clé
     //-2 si x est inférieur a la première clé, ou qu'il n'y a aucun polynome
     private int GetRangeId(float x)
     {
-        if (keys.Count == 0 || x > keys[keys.Count - 1].x)
+        if (keys.Count <= 1 || x > keys[keys.Count - 1].x)
         {
             return -1;
         }
@@ -181,8 +148,97 @@ public abstract class Curve
     }
     
     
+    //////////////////////////////
+    //opération de base
+    //////////////////////////////
+    
+    //addition
+    public static Curve operator +( Curve curve, float f ) {
+        Curve clone = curve.Clone();
+        clone.Add(f);
+        return clone;
+    }
+    
+    public void Add(float f) {
+        for( int i=0; i<keys.Count; i++ ) {
+            keys[i] = new Vector2( keys[i].x, keys[i].y + f );
+            
+        }
+        for ( int i = 0; i<polyLst.Count; i++) {
+            polyLst[i].Add(f);
+        }
+    }
+    
+    //soustraction
+    public static Curve operator -(Curve curve, float f) {
+        return curve + (-f);
+    }
+    public void Sub( float f ) {
+        Add( -f );
+    }
+    
+    //multiplication
+    public static Curve operator *( Curve curve, float f ) {
+        Curve clone = curve.Clone();
+        clone.Mul(f);
+        return clone;
+    }
+    
+    public void Mul(float f) {
+        for( int i=0; i<keys.Count; i++ ) {
+            keys[i] = new Vector2( keys[i].x, keys[i].y * f );
+        }
+        for( int i=0; i<polyLst.Count; i++ ) {
+            polyLst[i].Mul(f);
+        }
+    }
+    
+    //division
+    public static Curve operator / ( Curve curve, float f ) {
+        return curve * (1.0f/f);
+    }
+    public void Div( float f ) {
+        Mul( 1/f );
+    }
+    
+    
+    //////////////////////////////////////////
+    // dérivation et intégration
+    //////////////////////////////////////////
+    
+    //retourne une nouvelle courbe, qui est la primitive de l'ancienne courbe qui passe par (0,0)
+    public Curve GetPrimitive() {
+        List<Vector2> keysPrim = new List<Vector2>();
+        List<Polynomial> polyLstPrim = new List<Polynomial>();
+        if ( keys.Count != 0 ) {
+            keysPrim.Add(Vector2.zero);
+        }
+        
+        for ( int i=0; i<polyLst.Count; i++ ) {
+            Polynomial newPoly = polyLst[i].GetPrimitive();
+            newPoly.ChangeHeight( keysPrim[i] );
+            float x = keys[i+1].x;
+            
+            polyLstPrim.Add(newPoly);
+            keysPrim.Add( new Vector2( x, newPoly.Get(x) ) );
+        }
+        return new Curve(keysPrim, polyLstPrim, polyGen);
+    }
+    
+    
+    
+    
+    
+    
     //Clone
-    public abstract Curve Clone();
+    public Curve Clone() {
+        List<Vector2> cloneKeys = new List<Vector2>( keys );
+        List<Polynomial> clonePoly = new List<Polynomial>();
+        foreach ( Polynomial poly in polyLst) {
+            clonePoly.Add( poly.Clone() );
+        }
+        return new Curve( cloneKeys, clonePoly, polyGen );
+    }
     
     
     
@@ -203,9 +259,10 @@ public abstract class Curve
     }
     
     //un constructeur privé qui ne fait pas de vérif sur les données d'entrée
-    protected Curve( List<Vector2> keys, List<Polynomial> polyLst ) {
+    protected Curve( List<Vector2> keys, List<Polynomial> polyLst, PolynomialGenerator polyGen ) {
         this.keys = keys;
         this.polyLst = polyLst;
+        this.polyGen = polyGen;
     }
 
 }

@@ -70,7 +70,7 @@ public class Polynomial
     
 
     //calcul de la dérivée, et retourne un autre polynome
-    public Polynomial CreateDerivative()
+    public Polynomial GetDerivative()
     {
         List<float> coefsDer = new List<float>();
         for (int i = 1; i < coefs.Count; i++)
@@ -80,8 +80,8 @@ public class Polynomial
         return new Polynomial(coefsDer);
     }
 
-    //calcul de l'intégrale, et retourne un autre polynome. L'intégrale est celle qui passe par (0,0)
-    public Polynomial CreateIntegral()
+    //calcul d'une primitive, et la retourne en tant qu'un autre polynome. La primitive est celle qui passe par (0,0)
+    public Polynomial GetPrimitive()
     {
         List<float> coefsInter = new List<float>();
         coefsInter.Add(0);
@@ -94,7 +94,7 @@ public class Polynomial
     }
 
     //ajoute une constante pour que la courbe du polynome passe par le point pt
-    public void changeHeight(Vector2 pt)
+    public void ChangeHeight(Vector2 pt)
     {
         float delta = pt.y - Get(pt.x);
         coefs[0] += delta;

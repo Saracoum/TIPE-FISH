@@ -96,8 +96,10 @@ public class CoralGenerator : LifeManager
     
     override public void CreateLife( State currentState )
     {
-        Curve growth = (currentState.TempCurve - 25) * 10;
+        Curve growth = (currentState.TempCurve - 25);
+        growth = growth.Squared() * -1 * 10;
         Curve population = growth.GetPrimitive() + count;
+        
         float health = population.Get(currentState.time) / count;
         GenerateCoral(health);
         

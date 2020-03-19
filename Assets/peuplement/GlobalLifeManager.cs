@@ -5,9 +5,6 @@ using UnityEngine;
 public class GlobalLifeManager : MonoBehaviour
 {
     
-    // [Range(0,1)]
-    // public float globalHealth = 1.0f;
-    
     public UIEditableCurve uiTempCurve;
     
     
@@ -16,13 +13,16 @@ public class GlobalLifeManager : MonoBehaviour
     public void Start() {
         genLst = new List<LifeManager>( GetComponentsInChildren<LifeManager>() );
         
+        List<Vector2> tempKeyLst = new List<Vector2>( new Vector2[]{new Vector2(0,25), new Vector2(1,25)});
+        uiTempCurve.CurrentCurve = new Curve( tempKeyLst );
+        
         InitLife();
     }
     
     
     public void InitLife () {
         
-        State state = new State((uiTempCurve.CurrentCurve * 10) + 20, 1);
+        State state = new State(uiTempCurve.CurrentCurve, 1);
         
         if ( uiTempCurve != null ) {
             foreach ( LifeManager gen in genLst ) {

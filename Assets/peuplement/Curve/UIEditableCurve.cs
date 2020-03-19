@@ -85,9 +85,55 @@ public class UIEditableCurve : MonoBehaviour
             }
         }
     }
-
-
-
+    
+    
+    //intervalle de temps de la courbe
+    [SerializeField]
+    private float _timeSpan = 1.0f;
+    public float TimeSpan {
+        get { return _timeSpan; }
+        set { _timeSpan = value; }
+    }
+    
+    //valeur min et max de la courbe
+    [SerializeField]
+    private float _minRange = 0.0f;
+    public float MinRange {
+        get { return _minRange; }
+        set { _minRange = Mathf.Min(value, _maxRange); }
+    }
+    [SerializeField]
+    private float _maxRange = 1.0f;
+    public float MaxRange {
+        get { return _maxRange; }
+        set { _maxRange = Mathf.Max(value, MinRange); }
+    }
+    
+    //conversion entre le repère de la courbe et celui de l'écran
+    private Vector2 ScreenToCurve( Vector2 v ) {
+        return new Vector2( 
+            v.x * TimeSpan,
+            ScreenToCurveY(v.y)
+        );
+    }
+    
+    private float ScreenToCurveY( float y ) {
+        return (y * (MaxRange-MinRange)) + MinRange;
+    }
+    
+    private Vector2 CurveToScreen( Vector2 v ) {
+        return new Vector2( 
+            v.x / TimeSpan, 
+            CurveToScreenY(v.y)
+        );
+    }
+    
+    private float CurveToScreenY( float y ) {
+        return (y - MinRange) / (MaxRange-MinRange);
+    }
+    
+    
+    
     private void Update()
     {
         if ( EditCurve ) {
@@ -101,12 +147,16 @@ public class UIEditableCurve : MonoBehaviour
         Vector2 mouseScreenPos = Input.mousePosition;
         Vector2 mouseLocalPos;
         mouseLocalPos = Rect.PointToNormalized(rect.rect, rect.InverseTransformPoint(mouseScreenPos));
-        Vector2 keyMarkerPos = new Vector2(mouseLocalPos.x, CurrentCurve.Get(mouseLocalPos.x));
+        //la position du marker, dans le repère de l'écran
+        Vector2 keyMarkerPos = new Vector2(
+            mouseLocalPos.x, 
+            CurveToScreenY( CurrentCurve.Get( mouseLocalPos.x * TimeSpan ) ) 
+        );
 
         bool canAddKey = Mathf.Abs(mouseLocalPos.y - keyMarkerPos.y) < distToAddKey;
         foreach (Vector2 key in CurrentCurve.GetKeys())
         {
-            canAddKey = canAddKey && (mouseLocalPos - key).sqrMagnitude > distToAddKey * distToAddKey;
+            canAddKey = canAddKey && (mouseLocalPos - CurveToScreen(key) ).sqrMagnitude > distToAddKey * distToAddKey;
         }
         AddKeyMarker.SetActive(canAddKey);
         if (canAddKey)
@@ -114,7 +164,7 @@ public class UIEditableCurve : MonoBehaviour
             AddKeyMarker.transform.localPosition = Rect.NormalizedToPoint(rect.rect, keyMarkerPos);
             if (Input.GetMouseButtonDown(0))
             {
-                AddKey(keyMarkerPos);
+                AddKey(  ScreenToCurve(keyMarkerPos) );
             }
 
 
@@ -148,8 +198,9 @@ public class UIEditableCurve : MonoBehaviour
             BoxSliderKey boxSlider = sliderObj.GetComponent<BoxSliderKey>();
             sliderObj.SetActive(EditCurve);
             
-            boxSlider.ValueX = key.x;
-            boxSlider.ValueY = key.y;
+            Vector2 keyScreen = CurveToScreen(key);
+            boxSlider.ValueX = keyScreen.x;
+            boxSlider.ValueY = keyScreen.y;
             boxSlider.editableCurve = this;
 
             sliders.Add(boxSlider);
@@ -173,7 +224,8 @@ public class UIEditableCurve : MonoBehaviour
         for (int id = oldId; id <= newId; id++)
         {
             BoxSliderKey currentSlider = sliders[id].GetComponent<BoxSliderKey>();
-            CurrentCurve.ChangeKeyById(id, currentSlider.ValueX, currentSlider.ValueY);
+            Vector2 keyPos = ScreenToCurve( new Vector2(currentSlider.ValueX, currentSlider.ValueY) );
+            CurrentCurve.ChangeKeyById(id, keyPos);
         }
         UpdateLineRender();
     }
@@ -210,7 +262,7 @@ public class UIEditableCurve : MonoBehaviour
 
         for (int i = 0; i < rend.Points.Length; i++)
         {
-            rend.Points[i].y = CurrentCurve.Get(rend.Points[i].x);
+            rend.Points[i].y = CurveToScreenY( CurrentCurve.Get(rend.Points[i].x * TimeSpan) );
         }
         rend.SetAllDirty();
     }
@@ -221,6 +273,10 @@ public class UIEditableCurve : MonoBehaviour
     {
         Subdivision = _subdivision;
         EditCurve = _editCurve;
+        
+        TimeSpan = _timeSpan;
+        MaxRange = _maxRange;
+        MinRange = _minRange;
     }
 
     private void Start()

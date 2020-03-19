@@ -29,6 +29,10 @@ public class Polynomial
         return coefs.Count - 1;
     }
 
+    //////////////////////////////////////////////////////////////////////
+    //définition des opérations de math de base
+    //////////////////////////////////////////////////////////////////////
+
     //définition de l'addition
     public static Polynomial operator +(Polynomial polynomial, float f)
     {
@@ -51,23 +55,48 @@ public class Polynomial
     //définition de la multiplication
     public static Polynomial operator *(Polynomial polynomial, float f)
     {
-        // List<float> lst = new List<float>(polynomial.coefs);
-        // for (int i = 0; i < lst.Count; i++)
-        // {
-        //     lst[i] *= f;
-        // }
-        // return new Polynomial(lst);
         Polynomial clone = polynomial.Clone();
         clone.Mul(f);
         return clone;
     }
-    public void Mul( float f ) {
+    public void Mul(float f)
+    {
         for (int i = 0; i < coefs.Count; i++)
         {
             coefs[i] *= f;
         }
     }
     
+    //créer un nouveau polynome qui est le polynome actuel au carré
+    public Polynomial Squared()
+    {
+        int n = coefs.Count;
+        List<float> sqrCoefs = new List<float>();
+        for( int i=0; i<n*2; i++ ) {
+            sqrCoefs.Add(0);
+        }
+        
+        for ( int i=0; i<n; i++ ) {
+            for ( int j=0; j<n; j++ ) {
+                sqrCoefs[i+j] += coefs[i] * coefs[j];
+            }
+        }
+        
+        return new Polynomial(sqrCoefs);
+    }
+
+
+    //ajoute une constante pour que la courbe du polynome passe par le point pt
+    public void ChangeHeight(Vector2 pt)
+    {
+        float delta = pt.y - Get(pt.x);
+        coefs[0] += delta;
+    }
+
+
+    //////////////////////////////////////////////////////////////////////
+    //calcul de la dérivée et de la primitive
+    //////////////////////////////////////////////////////////////////////
 
     //calcul de la dérivée, et retourne un autre polynome
     public Polynomial GetDerivative()
@@ -93,12 +122,7 @@ public class Polynomial
         return new Polynomial(coefsInter);
     }
 
-    //ajoute une constante pour que la courbe du polynome passe par le point pt
-    public void ChangeHeight(Vector2 pt)
-    {
-        float delta = pt.y - Get(pt.x);
-        coefs[0] += delta;
-    }
+
 
 
     //clone

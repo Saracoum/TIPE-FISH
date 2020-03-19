@@ -197,8 +197,24 @@ public class Curve
     public static Curve operator / ( Curve curve, float f ) {
         return curve * (1.0f/f);
     }
-    public void Div( float f ) {
-        Mul( 1/f );
+    
+    //multiplication sur x
+    
+    
+    //mise au carré
+    public Curve Squared() {
+        Curve squaredCurve = this.Clone();
+        squaredCurve.Square();
+        return squaredCurve;
+    }
+    
+    public void Square() {
+        for( int i=0; i<keys.Count; i++ ) {
+            keys[i] = new Vector2( keys[i].x, keys[i].y * keys[i].y );
+        }
+        for( int i=0; i<polyLst.Count; i++ ) {
+            polyLst[i] = polyLst[i].Squared();
+        }
     }
     
     

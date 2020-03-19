@@ -16,15 +16,13 @@ public class GlobalLifeManager : MonoBehaviour
     public void Start() {
         genLst = new List<LifeManager>( GetComponentsInChildren<LifeManager>() );
         
-        
         InitLife();
     }
     
     
-    
     public void InitLife () {
         
-        State state = new State(uiTempCurve.CurrentCurve);
+        State state = new State((uiTempCurve.CurrentCurve * 10) + 20, 1);
         
         if ( uiTempCurve != null ) {
             foreach ( LifeManager gen in genLst ) {

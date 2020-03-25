@@ -39,6 +39,7 @@ public class FlockAgent : MonoBehaviour
         
         transform.forward = currentVelocity;
         transform.position += (Vector3) currentVelocity * Time.deltaTime;
+
         //rb.AddForce(velocity, ForceMode.VelocityChange);
     }
 

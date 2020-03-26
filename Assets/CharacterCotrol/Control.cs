@@ -8,6 +8,8 @@ public class Control : MonoBehaviour
 
     [Range(0f, 10f)]
     public float speed = 1.0f;
+
+    public float sprintSpeed = 2.0f;
     [Range(0f, 360f)]
     public float rotSpeed = 90.0f; // rotate at 90 degrees/second
 
@@ -24,7 +26,7 @@ public class Control : MonoBehaviour
         transform.Rotate(Input.GetAxis("Mouse Y") * rotSpeed * Time.deltaTime, 0, 0, relativeTo: Space.Self);
         moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
         moveDirection = transform.TransformDirection(moveDirection);
-        moveDirection *= speed;
+        moveDirection *= Input.GetAxis("Sprint") > 0.5f ? sprintSpeed : speed;
 
 
         characterController.Move(moveDirection * Time.deltaTime);

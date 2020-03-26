@@ -1455,7 +1455,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 383165063}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.44, y: 0.95, z: -5.74}
+  m_LocalPosition: {x: 1.1, y: 1.66, z: -1.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1037021930}
@@ -1476,10 +1476,10 @@ MonoBehaviour:
   agentPrefab: {fileID: 92359972605402903, guid: 6e0183758eab5b745a9269303d3cfe25,
     type: 3}
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
-  startingCount: 50
+  startingCount: 20
   driveFactor: 10
   maxSpeed: 1
-  neighborRadius: 1.5
+  neighborRadius: 2.2
   avoidanceRadiusMultiplayer: 0.5
 --- !u!1 &399067812
 GameObject:
@@ -3407,7 +3407,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955182375}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.225, y: 0.992, z: -0.584}
+  m_LocalPosition: {x: 0.353, y: 0.992, z: -1.829}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1037021930}
@@ -3431,8 +3431,8 @@ MonoBehaviour:
   startingCount: 20
   driveFactor: 10
   maxSpeed: 0.5
-  neighborRadius: 0.5
-  avoidanceRadiusMultiplayer: 0.3
+  neighborRadius: 2
+  avoidanceRadiusMultiplayer: 0.2
 --- !u!1 &956086486
 GameObject:
   m_ObjectHideFlags: 0
@@ -3848,6 +3848,8 @@ Transform:
   - {fileID: 383165064}
   - {fileID: 1107443927}
   - {fileID: 955182376}
+  - {fileID: 2004198573}
+  - {fileID: 2008048128}
   m_Father: {fileID: 1588330844}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4471,7 +4473,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107443926}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.332, z: 0}
+  m_LocalPosition: {x: 1.81, y: 0.53, z: -1.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1037021930}
@@ -4492,10 +4494,10 @@ MonoBehaviour:
   agentPrefab: {fileID: 6714658022612138972, guid: ef5a23d09b9dcd542839bbdea0ff83e4,
     type: 3}
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
-  startingCount: 50
+  startingCount: 20
   driveFactor: 10
   maxSpeed: 1
-  neighborRadius: 1.5
+  neighborRadius: 3
   avoidanceRadiusMultiplayer: 0.5
 --- !u!1001 &1114390037
 PrefabInstance:
@@ -7783,6 +7785,108 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83c3801a46f3e8243a0c93306cb4ea05, type: 3}
+--- !u!1 &2004198572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2004198573}
+  - component: {fileID: 2004198574}
+  m_Layer: 0
+  m_Name: flock_papillon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2004198573
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004198572}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.369, y: 1.66, z: -0.133}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1037021930}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2004198574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004198572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32837fb495a5e3c4cabb04de7d48ca28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentPrefab: {fileID: 3115060812104152136, guid: 7d655b4f01ef302499dfa1cb48309755,
+    type: 3}
+  behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
+  startingCount: 20
+  driveFactor: 10
+  maxSpeed: 1
+  neighborRadius: 2.2
+  avoidanceRadiusMultiplayer: 0.5
+--- !u!1 &2008048127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2008048128}
+  - component: {fileID: 2008048129}
+  m_Layer: 0
+  m_Name: flock_Vulpinus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2008048128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008048127}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.448, y: 1.66, z: -0.563}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1037021930}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2008048129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008048127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32837fb495a5e3c4cabb04de7d48ca28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentPrefab: {fileID: 2868055916478626110, guid: b3c8785bff8ea75498bc8df8f602a75d,
+    type: 3}
+  behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
+  startingCount: 20
+  driveFactor: 10
+  maxSpeed: 1
+  neighborRadius: 2.2
+  avoidanceRadiusMultiplayer: 0.5
 --- !u!1 &2016689360
 GameObject:
   m_ObjectHideFlags: 0

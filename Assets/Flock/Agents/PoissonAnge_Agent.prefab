@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5286725341437000883}
   - component: {fileID: 296072312736714728}
   - component: {fileID: 8893583402439318056}
+  - component: {fileID: -2520615077500303655}
   m_Layer: 0
   m_Name: PoissonAnge_Agent
   m_TagString: Untagged
@@ -106,3 +107,15 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.14296979
   m_Center: {x: 0, y: -0.0000596717, z: -0.09421626}
+--- !u!114 &-2520615077500303655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835766122039741099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1dc05e33ccfff4980ca87ae7784a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

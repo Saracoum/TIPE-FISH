@@ -14,7 +14,7 @@ public class CoralGenerator : LifeManager
     public Material deadMat;
     
     public int count = 10;
-    [Range(0, 5)]
+    [Range(0, 20)]
     public float radius = 1;
     [Range(0, 90)]
     public float maxAngle = 20;

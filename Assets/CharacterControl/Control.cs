@@ -19,17 +19,19 @@ public class Control : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
     }
-
-    void Update()
+    
+    
+    void FixedUpdate()
     {
-        transform.Rotate(0, Input.GetAxis("Mouse X") * rotSpeed * Time.deltaTime, 0, relativeTo:Space.World);
-        transform.Rotate(Input.GetAxis("Mouse Y") * rotSpeed * Time.deltaTime, 0, 0, relativeTo: Space.Self);
+        transform.Rotate(0, Input.GetAxis("Mouse X") * rotSpeed * Time.fixedDeltaTime, 0, relativeTo:Space.World);
+        transform.Rotate(Input.GetAxis("Mouse Y") * rotSpeed * Time.fixedDeltaTime, 0, 0, relativeTo: Space.Self);
+        
         moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
         moveDirection = transform.TransformDirection(moveDirection);
         moveDirection *= Input.GetAxis("Sprint") > 0.5f ? sprintSpeed : speed;
 
 
-        characterController.Move(moveDirection * Time.deltaTime);
+        characterController.Move(moveDirection * Time.fixedDeltaTime);
 
     }
 }

@@ -1177,7 +1177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149848787}
   m_LocalRotation: {x: -0, y: -0.9278849, z: -0, w: 0.3728669}
-  m_LocalPosition: {x: 0.73, y: -5.96, z: 7.1}
+  m_LocalPosition: {x: 4.56, y: -6.91, z: 3.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2780,7 +2780,7 @@ MonoBehaviour:
   agentPrefab: {fileID: 92359972605402903, guid: 6e0183758eab5b745a9269303d3cfe25,
     type: 3}
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
-  startingCount: 20
+  startingCount: 50
   driveFactor: 10
   maxSpeed: 1
   neighborRadius: 2.2
@@ -6575,7 +6575,7 @@ MonoBehaviour:
   agentPrefab: {fileID: 2739840571689682089, guid: ea26145d004e83d40b8d9a5880b90346,
     type: 3}
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
-  startingCount: 20
+  startingCount: 50
   driveFactor: 10
   maxSpeed: 0.5
   neighborRadius: 2
@@ -7543,6 +7543,7 @@ Transform:
   - {fileID: 955182376}
   - {fileID: 2004198573}
   - {fileID: 2008048128}
+  - {fileID: 2069206042}
   m_Father: {fileID: 1588330844}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7953,7 +7954,7 @@ MonoBehaviour:
   agentPrefab: {fileID: 6714658022612138972, guid: ef5a23d09b9dcd542839bbdea0ff83e4,
     type: 3}
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
-  startingCount: 20
+  startingCount: 50
   driveFactor: 10
   maxSpeed: 1
   neighborRadius: 3
@@ -15625,7 +15626,7 @@ MonoBehaviour:
   agentPrefab: {fileID: 3115060812104152136, guid: 7d655b4f01ef302499dfa1cb48309755,
     type: 3}
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
-  startingCount: 20
+  startingCount: 50
   driveFactor: 10
   maxSpeed: 1
   neighborRadius: 2.2
@@ -15673,10 +15674,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32837fb495a5e3c4cabb04de7d48ca28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agentPrefab: {fileID: -2520615077500303655, guid: bd1dbcff82b2c46468841f44d253a474,
+  agentPrefab: {fileID: 2868055916478626110, guid: b3c8785bff8ea75498bc8df8f602a75d,
     type: 3}
   behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
-  startingCount: 20
+  startingCount: 50
   driveFactor: 10
   maxSpeed: 1
   neighborRadius: 2.2
@@ -16149,6 +16150,57 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2068022268}
   m_Mesh: {fileID: -4248826192882620471, guid: a287ec0bd09f7b846822be557af25aa6, type: 3}
+--- !u!1 &2069206041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2069206042}
+  - component: {fileID: 2069206043}
+  m_Layer: 0
+  m_Name: flock_Ange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2069206042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069206041}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.448, y: 1.66, z: -0.563}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1037021930}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2069206043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069206041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32837fb495a5e3c4cabb04de7d48ca28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentPrefab: {fileID: -2520615077500303655, guid: bd1dbcff82b2c46468841f44d253a474,
+    type: 3}
+  behavior: {fileID: 11400000, guid: a21c15c2af4193c4cacb210a80db01b5, type: 2}
+  startingCount: 50
+  driveFactor: 10
+  maxSpeed: 1
+  neighborRadius: 2.2
+  avoidanceRadiusMultiplayer: 0.5
 --- !u!1 &2095448004
 GameObject:
   m_ObjectHideFlags: 0

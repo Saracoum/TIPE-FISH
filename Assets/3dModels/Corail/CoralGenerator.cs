@@ -104,9 +104,10 @@ public class CoralGenerator : LifeManager
         GenerateCoral(health);
         
         
+        //DEBUG
         if (displayCurve != null) {
-            Curve disp = population / 60;
-            displayCurve.CurrentCurve = disp;
+            displayCurve.MaxRange = count;
+            displayCurve.CurrentCurve = population;
         }
     }
     

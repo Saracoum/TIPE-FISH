@@ -11,7 +11,7 @@ public class GlobalLifeManager : MonoBehaviour
     private List<LifeManager> genLst;
     
     public void Start() {
-        genLst = new List<LifeManager>( GetComponentsInChildren<LifeManager>() );
+        FindGenLst();
         
         List<Vector2> tempKeyLst = new List<Vector2>( new Vector2[]{new Vector2(0,25), new Vector2(1,25)});
         uiTempCurve.CurrentCurve = new Curve( tempKeyLst );
@@ -25,10 +25,17 @@ public class GlobalLifeManager : MonoBehaviour
         State state = new State(uiTempCurve.CurrentCurve, 1);
         
         if ( uiTempCurve != null ) {
+            if ( genLst == null ) {
+                FindGenLst();
+            }
             foreach ( LifeManager gen in genLst ) {
                 gen.CreateLife( state );
             }
         }
+    }
+    
+    private void FindGenLst() {
+        genLst = new List<LifeManager>( GetComponentsInChildren<LifeManager>() );
     }
     
     

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
 /**
@@ -92,7 +93,10 @@ public class UIEditableCurve : MonoBehaviour
     private float _timeSpan = 1.0f;
     public float TimeSpan {
         get { return _timeSpan; }
-        set { _timeSpan = value; }
+        set {
+            _timeSpan = value;
+            UpdateScale( _xScale, 0, _timeSpan );
+        }
     }
     
     //valeur min et max de la courbe
@@ -100,14 +104,40 @@ public class UIEditableCurve : MonoBehaviour
     private float _minRange = 0.0f;
     public float MinRange {
         get { return _minRange; }
-        set { _minRange = Mathf.Min(value, _maxRange); }
+        set { 
+            _minRange = Mathf.Min(value, _maxRange); 
+            UpdateScale( _yScale, _minRange, _maxRange );
+        }
     }
     [SerializeField]
     private float _maxRange = 1.0f;
     public float MaxRange {
         get { return _maxRange; }
-        set { _maxRange = Mathf.Max(value, MinRange); }
+        set {
+            _maxRange = Mathf.Max(value, MinRange); 
+            UpdateScale( _yScale, _minRange, _maxRange );
+        }
     }
+    
+    [SerializeField]
+    private List<Text> _yScale;
+    public List<Text> YScale {
+        get { return _yScale; }
+        set{ 
+            _yScale = value; 
+            UpdateScale( _yScale, _minRange, _maxRange );
+        }
+    }
+    [SerializeField]
+    private List<Text> _xScale;
+    public List<Text> XScale {
+        get { return _xScale; }
+        set{ 
+            _xScale = value; 
+            UpdateScale( _xScale, 0, _timeSpan );
+        }
+    }
+    
     
     //conversion entre le repère de la courbe et celui de l'écran
     private Vector2 ScreenToCurve( Vector2 v ) {
@@ -131,6 +161,16 @@ public class UIEditableCurve : MonoBehaviour
     private float CurveToScreenY( float y ) {
         return (y - MinRange) / (MaxRange-MinRange);
     }
+    
+    
+    private void UpdateScale ( List<Text> scale, float min, float max ) {
+        float countF = scale.Count-1.0f;
+        
+        for ( int i=0; i<scale.Count; i++ ) {
+            scale[i].text = (i/countF * (max-min) + min ).ToString();
+        }
+    }
+    
     
     
     
@@ -277,12 +317,15 @@ public class UIEditableCurve : MonoBehaviour
         TimeSpan = _timeSpan;
         MaxRange = _maxRange;
         MinRange = _minRange;
+        
+        XScale = _xScale;
+        YScale = _yScale;
     }
 
     private void Start()
     {
-
-
+        
+        
         //récupération des composants
         rend = GetComponent<UILineRenderer>();
         rect = GetComponent<RectTransform>();

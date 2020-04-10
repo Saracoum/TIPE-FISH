@@ -185,18 +185,19 @@ public class UIEditableCurve : MonoBehaviour
     private void ProcessMouseInput () {
         
         Vector2 mouseScreenPos = Input.mousePosition;
-        Vector2 mouseLocalPos;
-        mouseLocalPos = Rect.PointToNormalized(rect.rect, rect.InverseTransformPoint(mouseScreenPos));
-        //la position du marker, dans le repère de l'écran
+        Vector2 mouseLocalPos = Rect.PointToNormalized(rect.rect, rect.InverseTransformPoint(mouseScreenPos));
+        
+        //la position du marker, dans le repère local
         Vector2 keyMarkerPos = new Vector2(
             mouseLocalPos.x, 
-            CurveToScreenY( CurrentCurve.Get( mouseLocalPos.x * TimeSpan ) ) 
+            CurveToScreenY( CurrentCurve.Get( mouseLocalPos.x * TimeSpan ) )
         );
 
         bool canAddKey = Mathf.Abs(mouseLocalPos.y - keyMarkerPos.y) < distToAddKey;
         foreach (Vector2 key in CurrentCurve.GetKeys())
         {
-            canAddKey = canAddKey && (mouseLocalPos - CurveToScreen(key) ).sqrMagnitude > distToAddKey * distToAddKey;
+            // canAddKey = canAddKey && (mouseLocalPos - CurveToScreen(key) ).sqrMagnitude > distToAddKey * distToAddKey;
+            canAddKey = canAddKey && Mathf.Abs(mouseLocalPos.x - CurveToScreen(key).x) > distToAddKey; //???
         }
         AddKeyMarker.SetActive(canAddKey);
         if (canAddKey)
@@ -322,7 +323,7 @@ public class UIEditableCurve : MonoBehaviour
         YScale = _yScale;
     }
 
-    private void Start()
+    private void Awake()
     {
         
         

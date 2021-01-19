@@ -1,0 +1,12 @@
+	static<T extends Comparable<T>> File<T> fusionTriee(File<File<T>> f){
+		while (f.getTaille() > 1) {
+			File<T> a0 = f.getTete();
+			f.supprimer();
+			File<T> a1 = f.getTete();
+			f.supprimer();
+			File<T> fusion = fusionFiles(a0,a1);
+			f.ajouter(fusion);
+			
+		}
+		return f.getTete();
+	}
